@@ -1,6 +1,7 @@
 package com.oched.booksprj.controllers;
 
 import com.oched.booksprj.requests.AddBookRequest;
+import com.oched.booksprj.requests.DelBookRequest;
 import com.oched.booksprj.services.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -30,8 +31,10 @@ public class BookController {
 
     }
 
-    public void deleteBook() {
-
+    @PostMapping(value = "/delete")
+    public String deleteBook(final @ModelAttribute("request") DelBookRequest request) {
+        this.bookService.delBook(request);
+        return "redirect:/books/all";
     }
 
     @GetMapping("/all")

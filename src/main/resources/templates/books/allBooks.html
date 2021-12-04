@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<table border="2" cellpadding="2" cellspacing="2">
+<table>
     <thead align="left">
     <tr>
         <th>Title</th>
@@ -21,13 +21,27 @@
         <td th:text="${book.year}"></td>
         <td th:text="${book.authorFirstName}"></td>
         <td th:text="${book.authorLastName}"></td>
+        <td>
+            <form th:action="@{../books/delete}" method="post" th:object="${request}">
+                <input type="submit" value="delete">
+                <input type="hidden" th:value="${book.title}" name="title">
+                <input type="hidden" th:value="${book.year}" name="year">
+                <input type="hidden" th:value="${book.authorFirstName}" name="authorFirstName">
+                <input type="hidden" th:value="${book.authorLastName}" name="authorLastName">
+            </form>
+        </td>
     </tr>
     </tbody>
 </table>
 
 <hr>
+<form action="/books/add" method="get">
+    <input type="submit" value="Add book...">
+</form>
 
-<h4><a href="/books/add">Add book...</a></h4>
-<h4><a href="/">Go to main...</a></h4>
+<form action="/" method="get">
+    <input type="submit" value="Go to main...">
+</form>
+
 </body>
 </html>
