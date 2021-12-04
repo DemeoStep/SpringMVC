@@ -22,8 +22,8 @@
         <td th:text="${book.authorFirstName}"></td>
         <td th:text="${book.authorLastName}"></td>
         <td>
-            <form th:action="@{../books/delete}" method="post" th:object="${request}">
-                <input type="submit" value="delete">
+            <form th:action="@{../books/delete}" method="post" th:object="${request}" class="table-button">
+                <input class="table-button" type="submit" value="delete">
                 <input type="hidden" th:value="${book.title}" name="title">
                 <input type="hidden" th:value="${book.year}" name="year">
                 <input type="hidden" th:value="${book.authorFirstName}" name="authorFirstName">

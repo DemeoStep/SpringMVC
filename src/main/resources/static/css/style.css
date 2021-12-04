@@ -11,8 +11,18 @@ th, td {
     padding-left: 10px;
     padding-right: 10px;
     text-align: left;
+    vertical-align: middle;
 }
 
 th {
     background-color: #D6EEEE;
+}
+
+.table-button {
+  margin-bottom: 2;
+  margin-top: 2;
+}
+
+form {
+  margin-bottom: 10px;
 }
