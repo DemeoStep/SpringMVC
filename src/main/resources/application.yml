@@ -1,8 +1,8 @@
 spring:
     datasource:
-        url: jdbc:mysql://localhost:3306/mydb?serverTimezone=UTC
+        url: jdbc:mysql://192.168.12.2:3306/springDB?serverTimezone=UTC
         username: root
-        password: 11235813
+        password: myensql
     jpa.open-in-view: false
 
 server.port: 8080
