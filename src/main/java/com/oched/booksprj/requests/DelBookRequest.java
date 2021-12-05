@@ -13,11 +13,5 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 public class DelBookRequest {
     @NotBlank
-    private String title;
-    @NotBlank
-    private int year;
-    @NotBlank
-    private String authorFirstName;
-    @NotBlank
-    private String authorLastName;
+    private long id;
 }

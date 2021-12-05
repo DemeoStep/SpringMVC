@@ -39,6 +39,8 @@ public class BookService {
                     request.getAuthorLastName(),
                     null
             );
+
+            //Это ж специально было пропущено, да? ;)
             authorRepository.getAuthorEntities().add(authorEntity);
         }
 
@@ -55,20 +57,9 @@ public class BookService {
 
     public void delBook(DelBookRequest request) {
         List<BookDescriptionEntity> bookList = bookRepository.getBooks();
-        List<AuthorEntity> authorEntities = authorRepository.getAuthorEntities();
-        AuthorEntity authorEntity = null;
-
-        for (AuthorEntity listAuthorEntity : authorEntities) {
-            if (listAuthorEntity.getFirstName().equals(request.getAuthorFirstName()) &&
-                    listAuthorEntity.getLastName().equals(request.getAuthorLastName())) {
-                authorEntity = listAuthorEntity;
-            }
-        }
 
         for (BookDescriptionEntity listBookEntity : bookList) {
-            if (listBookEntity.getAuthorEntity() == authorEntity &&
-                    listBookEntity.getYear() == request.getYear() &&
-                    listBookEntity.getTitle().equals(request.getTitle())) {
+            if (listBookEntity.getId() == request.getId()) {
                 bookRepository.getBooks().remove(listBookEntity);
                 break;
             }
@@ -80,6 +71,7 @@ public class BookService {
 
         return bookList.stream().map(
                 book -> new BookResponse(
+                        book.getId(),
                         book.getTitle(),
                         book.getYear(),
                         book.getAuthorEntity().getFirstName(),
