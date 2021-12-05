@@ -18,6 +18,10 @@ th {
     background-color: #D6EEEE;
 }
 
+.th-center {
+    text-align: center;
+}
+
 .table-button {
   margin-bottom: 2;
   margin-top: 2;

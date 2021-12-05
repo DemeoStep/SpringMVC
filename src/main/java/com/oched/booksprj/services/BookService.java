@@ -5,10 +5,9 @@ import com.oched.booksprj.entities.BookDescriptionEntity;
 import com.oched.booksprj.requests.AddBookRequest;
 import com.oched.booksprj.repositories.AuthorRepository;
 import com.oched.booksprj.repositories.BookRepository;
-import com.oched.booksprj.requests.DelBookRequest;
+import com.oched.booksprj.requests.DeleteOrEditBookRequest;
 import com.oched.booksprj.responses.BookResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -55,15 +54,48 @@ public class BookService {
         );
     }
 
-    public void delBook(DelBookRequest request) {
-        List<BookDescriptionEntity> bookList = bookRepository.getBooks();
+    public void deleteBook(DeleteOrEditBookRequest request) {
+        bookRepository.getBooks().remove(request.getId());
+    }
 
-        for (BookDescriptionEntity listBookEntity : bookList) {
-            if (listBookEntity.getId() == request.getId()) {
-                bookRepository.getBooks().remove(listBookEntity);
-                break;
+    public void editBook(AddBookRequest request) {
+        BookDescriptionEntity book = bookRepository.getBooks().get(request.getId());
+        List<AuthorEntity> authorEntities = authorRepository.getAuthorEntities();
+        AuthorEntity authorEntity = null;
+
+        for (AuthorEntity listAuthorEntity : authorEntities) {
+            if (listAuthorEntity.getFirstName().equals(request.getAuthorFirstName()) &&
+                    listAuthorEntity.getLastName().equals(request.getAuthorLastName())) {
+                authorEntity = listAuthorEntity;
             }
         }
+
+        if (authorEntity == null) {
+            authorEntity = new AuthorEntity(
+                    authorEntities.size(),
+                    request.getAuthorFirstName(),
+                    request.getAuthorLastName(),
+                    null
+            );
+
+            authorRepository.getAuthorEntities().add(authorEntity);
+        }
+
+        book.setTitle(request.getTitle());
+        book.setYear(request.getYear());
+        book.setAuthorEntity(authorEntity);
+
+    }
+
+    public BookResponse getById(int id) {
+        BookDescriptionEntity book = bookRepository.getBooks().get(id);
+        return new BookResponse(
+                book.getId(),
+                book.getTitle(),
+                book.getYear(),
+                book.getAuthorEntity().getFirstName(),
+                book.getAuthorEntity().getLastName()
+        );
     }
 
     public List<BookResponse> getAll() {

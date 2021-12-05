@@ -13,7 +13,7 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 public class AddBookRequest {
     @NotBlank
-    private long id;
+    private int id;
     @NotBlank
     private String title;
     @NotBlank

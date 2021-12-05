@@ -13,6 +13,7 @@
         <th>Year</th>
         <th>Author first name</th>
         <th>Author last name</th>
+        <th class="th-center">Action</th>
     </tr>
     </thead>
     <tbody>
@@ -22,8 +23,9 @@
         <td th:text="${book.authorFirstName}"></td>
         <td th:text="${book.authorLastName}"></td>
         <td>
-            <form th:action="@{../books/delete}" method="post" th:object="${request}" class="table-button">
-                <input class="table-button" type="submit" value="delete">
+            <form class="table-button">
+                <input class="table-button" type="submit" value="edit" th:formaction="@{../books/edit}" formmethod="get">
+                <input class="table-button" type="submit" value="delete" th:formaction="@{../books/delete}" formmethod="post">
                 <input type="hidden" th:value="${book.id}" name="id">
             </form>
         </td>
@@ -32,12 +34,9 @@
 </table>
 
 <hr>
-<form action="/books/add" method="get">
-    <input type="submit" value="Add book...">
-</form>
-
-<form action="/" method="get">
-    <input type="submit" value="Go to main...">
+<form>
+    <input type="submit" formaction="/books/add" formmethod="get" value="Add book...">
+    <input type="submit" formaction="/" formmethod="get"value="Go to main...">
 </form>
 
 </body>
