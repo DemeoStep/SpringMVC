@@ -1,6 +1,7 @@
 package com.oched.booksprj.controllers;
 
 import com.oched.booksprj.requests.AddBookRequest;
+import com.oched.booksprj.requests.DeleteOrEditBookRequest;
 import com.oched.booksprj.services.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -26,12 +27,23 @@ public class BookController {
         return "redirect:/books/all";
     }
 
-    public void updateBook() {
-
+    @GetMapping(value = "/edit")
+    public ModelAndView getEditBookPage(ModelAndView modelAndView, int id) {
+        modelAndView.addObject("book", this.bookService.getById(id));
+        modelAndView.setViewName("/books/editBook");
+        return modelAndView;
     }
 
-    public void deleteBook() {
+    @PostMapping(value = "/edit")
+    public String updateBook(final @ModelAttribute("request") AddBookRequest request) {
+        this.bookService.editBook(request);
+        return "redirect:/books/all";
+    }
 
+    @PostMapping(value = "/delete")
+    public String deleteBook(final @ModelAttribute("request") DeleteOrEditBookRequest request) {
+        this.bookService.deleteBook(request);
+        return "redirect:/books/all";
     }
 
     @GetMapping("/all")

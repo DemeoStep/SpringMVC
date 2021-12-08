@@ -11,17 +11,7 @@ import javax.validation.constraints.NotBlank;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AddBookRequest {
+public class DeleteOrEditBookRequest {
     @NotBlank
     private long id;
-    @NotBlank
-    private String title;
-    @NotBlank
-    private int year;
-    @NotBlank
-    private String authorFirstName;
-    @NotBlank
-    private String authorLastName;
-    @NotBlank
-    private String content;
 }
