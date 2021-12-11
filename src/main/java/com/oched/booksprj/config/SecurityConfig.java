@@ -11,7 +11,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.sql.DataSource;
 
-
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
@@ -41,9 +40,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity
                 .csrf().disable()
                 .authorizeRequests()
-                .mvcMatchers("/users/add", "/books/add", "/books/edit", "/books/delete")
-                .hasRole("ADMIN")
-                .mvcMatchers("/books/all", "/users/all", "/hello/**")
+                .mvcMatchers("/users/all", "/books/add", "/books/edit", "/books/delete")
+                .hasAnyRole("ADMIN","SUPER")
+                .mvcMatchers("/users/add")
+                .hasRole("SUPER")
+                .mvcMatchers("/books/all", "/hello/**")
                 .hasAnyRole("ADMIN","USER")
                 .antMatchers(
                         "/", "/login", "/registration", "/perform_logout"

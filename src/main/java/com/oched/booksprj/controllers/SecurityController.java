@@ -20,7 +20,7 @@ public class SecurityController {
 
     @PostMapping(value = "/registration")
     public String passData(@ModelAttribute("request") NewUserRequest request) {
-        this.userService.addNewUser(request);
+        this.userService.register(request);
 
         return "redirect:/login";
     }

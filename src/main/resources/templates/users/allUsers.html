@@ -11,12 +11,20 @@
         <tr>
             <th class="th-center">Login</th>
             <th class="th-center">Email</th>
+            <th class="th-center">Action</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="user : ${list}">
             <td th:text=${user.login}></td>
             <td th:text=${user.email}></td>
+            <td>
+                <form class="table-button">
+                    <input type="submit" value="edit" th:formaction=@{../users/edit} method="get" th:object=${request} class="table-button">
+                    <input type="submit" value="delete" th:formaction=@{../users/delete} method="get" th:object=${request} class="table-button" >
+                    <input type="hidden" th:value=${user.id} name="id">
+                </form>
+            </td>
         </tr>
         </tbody>
     </table>
