@@ -8,11 +8,12 @@
         <h2>Login Page!</h2>
         <h3>Enter your credentials:</h3>
         <form th:action=@{/perform_login} method="post">
-            <p>Login -><input type="text" name="username"/></p>
-            <p>Password -><input type="password" name="password"></p>
+            <p>Login <input type="text" name="username"/></p>
+            <p>Password <input type="password" name="password"></p>
             <br>
             <input type="submit" value="Login">
         </form>
-        <h5><a href="/">Go to main...</a></h5>
+
+        <input onclick="location.href='/'" type="button" value="Goto main">
     </body>
 </html>

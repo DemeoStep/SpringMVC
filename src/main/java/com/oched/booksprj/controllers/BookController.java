@@ -4,6 +4,7 @@ import com.oched.booksprj.requests.ActionRequest;
 import com.oched.booksprj.requests.EditBookRequest;
 import com.oched.booksprj.requests.NewBookRequest;
 import com.oched.booksprj.services.BookService;
+import com.oched.booksprj.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/books")
 public class BookController {
     private final BookService bookService;
+    private final UserService userService;
 
     @GetMapping(value = "/add")
     private String getAddBookPage() {
@@ -30,6 +32,9 @@ public class BookController {
 
     @GetMapping("/all")
     public ModelAndView getAllBooks(final ModelAndView modelAndView) {
+        if (this.userService.isAdmin()) {
+            modelAndView.addObject("isAdmin", true);
+        }
         modelAndView.addObject("list", this.bookService.getAll());
         modelAndView.setViewName("/books/allBooks");
 

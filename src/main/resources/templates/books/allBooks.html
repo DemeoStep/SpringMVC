@@ -13,7 +13,7 @@
         <th class="th-center">Year</th>
         <th class="th-center">Author first name</th>
         <th class="th-center">Author last name</th>
-        <th class="th-center">Action</th>
+        <th th:if="${isAdmin}" class="th-center">Action</th>
     </tr>
     </thead>
     <tbody>
@@ -22,7 +22,7 @@
         <td th:text=${book.year}></td>
         <td th:text=${book.authorFirstName}></td>
         <td th:text=${book.authorLastName}></td>
-        <td>
+        <td th:if="${isAdmin}">
             <form class="table-button">
                 <input type="submit" value="edit" th:formaction=@{../books/edit} method="get" th:object=${request} class="table-button">
                 <input type="submit" value="delete" th:formaction=@{../books/delete} method="get" th:object=${request} class="table-button" >
@@ -35,7 +35,8 @@
 
 <hr>
 
-<h5><a href="/books/add">Add book...</a></h5>
-<h5><a href="/">Go to main...</a></h5>
+<input th:if="${isAdmin}" class="table-button" onclick="location.href='/books/add'" type="button" value="Add book">
+<input onclick="location.href='/'" type="button" value="Goto main">
+
 </body>
 </html>

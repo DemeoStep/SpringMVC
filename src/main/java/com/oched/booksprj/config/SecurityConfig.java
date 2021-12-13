@@ -40,14 +40,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity
                 .csrf().disable()
                 .authorizeRequests()
-                .mvcMatchers("/users/all", "/books/add", "/books/edit", "/books/delete")
-                .hasAnyRole("ADMIN","SUPER")
-                .mvcMatchers("/users/add")
-                .hasRole("SUPER")
-                .mvcMatchers("/books/all", "/hello/**")
-                .hasAnyRole("ADMIN","USER")
+                .mvcMatchers("/users/add", "/users/all", "/users/edit", "/books/add", "/books/edit", "/books/delete")
+                .hasAnyRole("ADMIN", "SUPER")
+                .mvcMatchers("/hello/**")
+                .hasAnyRole("ADMIN", "USER", "SUPER")
                 .antMatchers(
-                        "/", "/login", "/registration", "/perform_logout"
+                        "/", "/login", "/registration", "/perform_logout", "/books/all"
                 ).permitAll()
                 .and()
                 .formLogin()

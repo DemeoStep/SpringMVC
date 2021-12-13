@@ -5,11 +5,13 @@
     <title>New User</title>
 </head>
 <body>
-    <h3 th:text=${user.login}>User login: </h3>
-    <h3 th:text=${user.email}>User email: </h3>
+    <h4 th:text="'User login: ' + ${user.login}"></h4>
+    <h4 th:text="'User email: ' + ${user.email}"></h4>
     <hr>
-    <h5><a href="/users/add">Go to users form...</a></h5>
-    <h5><a href="/users/all">Get users list...</a></h5>
+
+    <input onclick="location.href='/users/add'" type="button" value="Add user">
+    <input onclick="location.href='/users/all'" type="button" value="Users list">
+    <input onclick="location.href='/'" type="button" value="Goto main">
 </body>
 </html>
 

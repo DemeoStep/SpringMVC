@@ -11,32 +11,30 @@
         <tr>
             <th class="th-center">Login</th>
             <th class="th-center">Email</th>
-            <div th:if="${roles}">
-                <th class="th-center">Action</th>
-            </div>
+            <th class="th-center">Action</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="user : ${list}">
             <td th:text=${user.login}></td>
             <td th:text=${user.email}></td>
-            <div th:if="${roles}">
-                <td>
-                    <form class="table-button">
-                        <input type="submit" value="edit" th:formaction=@{../users/edit} method="get" th:object=${request} class="table-button">
-                        <input type="submit" value="delete" th:formaction=@{../users/delete} method="get" th:object=${request} class="table-button" >
-                        <input type="hidden" th:value=${user.id} name="id">
-                    </form>
-                </td>
-            </div>
+
+            <td>
+                <form class="table-button" method="get">
+                    <input type="submit" value="edit" th:formaction=@{../users/edit} th:object=${request} class="table-button">
+                    <input type="submit" value="delete" th:formaction=@{../users/delete} th:object=${request} class="table-button" >
+                    <input type="hidden" th:value=${user.id} name="id">
+                </form>
+            </td>
+
         </tr>
         </tbody>
     </table>
 
     <hr>
 
-    <h5><a href="/users/add">Go to users form...</a></h5>
-    <h5><a href="/">Go to main...</a></h5>
+    <input onclick="location.href='/users/add'" type="button" value="Add user">
+    <input onclick="location.href='/'" type="button" value="Goto main">
 
 </body>
 </html>

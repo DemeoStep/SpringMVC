@@ -6,18 +6,22 @@
 </head>
 <body>
 
-<form action="../users/add" method="post" th:object=${request}>
-    <p>Login : <input type="text" name="login"></p>
-    <p>Email : <input type="text" name="email"></p>
+<form th:action=@{../users/edit} method="post" th:object=${request}>
+    <p>Login : <input type="text" name="login" th:value="${user.login}"></p>
+    <p>Email : <input type="text" name="email" th:value="${user.email}"></p>
     <p>Password : <input type="text" name="password"></p>
     <p th:if="${isSuper}">Role :
         <select name="role">
-            <option selected value="USER">User</option>
-            <option value="ADMIN">Admin</option>
-            <option value="SUPER">Superadmin</option>
+            <option th:if="${role == 'User'}" selected value="USER">User</option>
+            <option th:unless="${role == 'User'}" value="USER">User</option>
+            <option th:if="${role == 'Admin'}" selected value="ADMIN">Admin</option>
+            <option th:unless="${role == 'Admin'}" value="ADMIN">Admin</option>
+            <option th:if="${role == 'Super'}" selected value="SUPER">Superadmin</option>
+            <option th:unless="${role == 'Super'}" value="SUPER">Superadmin</option>
         </select></p>
     <input type="hidden" th:unless="${isSuper}" name="role" value="USER">
     <input type="submit" value="Pass data">
+    <input type="hidden" th:value="${user.id}" name="id">
 </form>
 
 <br/>
