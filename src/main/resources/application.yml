@@ -6,3 +6,9 @@ spring:
     jpa.open-in-view: false
 
 server.port: 8080
+
+springdoc:
+    swagger-ui:
+      disable-swagger-default-url: true #Убираем дефолтный путь к петам...
+    api-docs:
+        path: /api-docs #Упрощаем "/v3/api-docs" до "/api-docs"

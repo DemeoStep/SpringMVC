@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
@@ -14,7 +15,7 @@ import javax.validation.constraints.NotBlank;
 public class NewBookRequest {
     @NotBlank
     private String title;
-    @NotBlank
+    @NotNull
     private int year;
     @NotBlank
     private String authorFirstName;

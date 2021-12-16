@@ -7,19 +7,20 @@ import lombok.Setter;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class EditUserRequest {
-    @NotBlank
+    @NotNull
     private long id;
     @NotBlank
     private String login;
     @Email
     private String email;
-    @NotBlank
+    @NotNull
     private String password;
     @NotBlank
     private String role;

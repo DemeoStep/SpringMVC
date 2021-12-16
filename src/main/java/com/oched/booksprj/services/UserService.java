@@ -82,6 +82,18 @@ public class UserService {
         ).collect(Collectors.toList());
     }
 
+    public List<UserInfoResponse> getUsersList(boolean rest) {
+        List<UserEntity> list = this.userRepository.findAll();
+
+        return list.stream().map(
+                user -> new UserInfoResponse(
+                        user.getId(),
+                        user.getLogin(),
+                        user.getEmail()
+                )
+        ).collect(Collectors.toList());
+    }
+
     public UserInfoResponse register(NewUserRequest request) {
         List<UserRole> roleList = new ArrayList<>();
         roleList.add(UserRole.ROLE_USER);
