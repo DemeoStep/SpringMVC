@@ -4,7 +4,6 @@ import com.oched.booksprj.exceptions.BadRequestException;
 import com.oched.booksprj.responses.ExceptionResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -30,6 +29,7 @@ public class ExceptionHandlerController {
                 request.getServletPath()
         );
 
+        log.error(exception.getMessage() + " at path '" + request.getServletPath() + "'");
         return new ResponseEntity<>(response, exception.getStatus());
     }
 
@@ -49,6 +49,7 @@ public class ExceptionHandlerController {
                 request.getServletPath()
         );
 
+        log.error(exception.getMessage() + " at path '" + request.getServletPath() + "'");
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
@@ -63,6 +64,7 @@ public class ExceptionHandlerController {
                 request.getServletPath()
         );
 
+        log.error(exception.getMessage() + " at path '" + request.getServletPath() + "'");
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
