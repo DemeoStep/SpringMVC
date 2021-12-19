@@ -34,7 +34,7 @@ public class BookDataLogger {
         log.info("<=============================================================>");
     }
 
-    @AfterReturning(value = "execution(* com.oched.booksprj.services.BookService.*(..))", returning = "response")
+    @AfterReturning(value = "execution(* com.oched.booksprj.services.BookService.getAll(..))", returning = "response")
     public void logAfterReturningBookService(JoinPoint joinPoint, List<BookInfoResponse> response) {
         log.info("<=============== / After Returning BookService / ===============>");
         log.info(joinPoint.getSignature().getName());
@@ -46,6 +46,17 @@ public class BookDataLogger {
         }
         log.info("<=============================================================>");
     }
+
+    @AfterReturning(value = "execution(* com.oched.booksprj.services.BookService.getById(..))", returning = "response")
+    public void logAfterReturningBookService(JoinPoint joinPoint, BookInfoResponse response) {
+        log.info("<=============== / After Returning BookService / ===============>");
+        log.info(joinPoint.getSignature().getName());
+        log.info(Arrays.toString(Arrays.stream(joinPoint.getArgs()).toArray()));
+        log.info(joinPoint.getSignature().toString());
+        log.info(response.toString());
+        log.info("<=============================================================>");
+    }
+
 
     @AfterThrowing(value = "execution(* com.oched.booksprj.services.BookService.*(..))", throwing = "exception")
     public void logAfterReturningBookService(Exception exception) {

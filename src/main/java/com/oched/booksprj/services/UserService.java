@@ -12,6 +12,9 @@ import com.oched.booksprj.requests.NewUserRequest;
 import com.oched.booksprj.responses.BookInfoResponse;
 import com.oched.booksprj.responses.UserInfoResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,6 +27,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -31,6 +35,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
+    @CacheEvict(value = "userListCache", allEntries = true)
     public UserInfoResponse addNewUser(NewUserRequest request) {
         List<UserRole> roleList = new ArrayList<>();
         roleList.add(UserRole.ROLE_USER);
@@ -60,6 +65,7 @@ public class UserService {
         );
     }
 
+    @Cacheable(value = "userListCache")
     public List<UserInfoResponse> getUsersList() {
         List<UserEntity> list = new ArrayList<>();
 
@@ -82,6 +88,7 @@ public class UserService {
         ).collect(Collectors.toList());
     }
 
+    @Cacheable(value = "userListCache")
     public List<UserInfoResponse> getUsersList(boolean rest) {
         List<UserEntity> list = this.userRepository.findAll();
 
@@ -94,6 +101,7 @@ public class UserService {
         ).collect(Collectors.toList());
     }
 
+    @CacheEvict(value = "userListCache", allEntries = true)
     public UserInfoResponse register(NewUserRequest request) {
         List<UserRole> roleList = new ArrayList<>();
         roleList.add(UserRole.ROLE_USER);
@@ -164,6 +172,7 @@ public class UserService {
         );
     }
 
+    @CacheEvict(value = "userListCache", allEntries = true)
     public void editUser(EditUserRequest request) {
         Optional<UserEntity> optional = this.userRepository.findById(request.getId());
 
@@ -212,6 +221,7 @@ public class UserService {
         return "User";
     }
 
+    @CacheEvict(value = "userListCache", allEntries = true)
     public void deleteUser(ActionRequest request) {
         userRepository.deleteById(request.getId());
     }

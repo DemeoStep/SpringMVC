@@ -16,7 +16,7 @@ import java.util.List;
 public class UserDataLogger {
 
     @Before("execution(* com.oched.booksprj.services.UserService.*(..))")
-    public void logBeforeBookService(JoinPoint joinPoint) {
+    public void logBeforeUserService(JoinPoint joinPoint) {
         log.info("<===================/ Before UserService / ===================>");
         log.info(joinPoint.getSignature().getName());
         log.info(Arrays.toString(Arrays.stream(joinPoint.getArgs()).toArray()));
@@ -26,7 +26,7 @@ public class UserDataLogger {
     }
 
     @After("execution(* com.oched.booksprj.services.UserService.*(..))")
-    public void logAfterBookService(JoinPoint joinPoint) {
+    public void logAfterUserService(JoinPoint joinPoint) {
         log.info("<=================== / After UserService / ===================>");
         log.info(joinPoint.getSignature().getName());
         log.info(Arrays.toString(Arrays.stream(joinPoint.getArgs()).toArray()));
@@ -35,8 +35,8 @@ public class UserDataLogger {
         log.info("<=============================================================>");
     }
 
-    @AfterReturning(value = "execution(* com.oched.booksprj.services.UserService.*(..))", returning = "response")
-    public void logAfterReturningBookService(JoinPoint joinPoint, List<UserInfoResponse> response) {
+    @AfterReturning(value = "execution(* com.oched.booksprj.services.UserService.getUsersList(..))", returning = "response")
+    public void logAfterReturningUserService(JoinPoint joinPoint, List<UserInfoResponse> response) {
         log.info("<=============== / After Returning UserService / ===============>");
         log.info(joinPoint.getSignature().getName());
         log.info(Arrays.toString(Arrays.stream(joinPoint.getArgs()).toArray()));
@@ -48,8 +48,20 @@ public class UserDataLogger {
         log.info("<=============================================================>");
     }
 
+    @AfterReturning(value = "execution(* com.oched.booksprj.services.UserService.getById(..))", returning = "response")
+    public void logAfterReturningUserService(JoinPoint joinPoint, UserInfoResponse response) {
+        log.info("<=============== / After Returning UserService / ===============>");
+        log.info(joinPoint.getSignature().getName());
+        log.info(Arrays.toString(Arrays.stream(joinPoint.getArgs()).toArray()));
+        log.info(joinPoint.getSignature().toString());
+        log.info(response.toString());
+        log.info("<=============================================================>");
+    }
+
+
+
     @AfterThrowing(value = "execution(* com.oched.booksprj.services.UserService.*(..))", throwing = "exception")
-    public void logAfterReturningBookService(Exception exception) {
+    public void logAfterReturningUserService(Exception exception) {
         log.info("<=============== / After Throwing UserService / ===============>");
         log.info(exception.getMessage());
         log.info("<=============================================================>");

@@ -12,6 +12,9 @@ import com.oched.booksprj.repositories.AuthorRepository;
 import com.oched.booksprj.repositories.BookRepository;
 import com.oched.booksprj.responses.BookInfoResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +24,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-
+@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -30,6 +33,7 @@ public class BookService {
     private final AuthorRepository authorRepository;
     private final BookContentRepository contentRepository;
 
+    @CacheEvict(value = "bookListCache", allEntries = true)
     public void addBook(NewBookRequest request) {
         Optional<AuthorEntity> optionalAuthor = authorRepository.findByFirstNameAndLastName(
                 request.getAuthorFirstName(),
@@ -63,6 +67,7 @@ public class BookService {
         bookRepository.save(newBook);
     }
 
+    @Cacheable("bookListCache")
     public List<BookInfoResponse> getAll() {
         List<BookDescriptionEntity> list = bookRepository.findAll();
 
@@ -75,7 +80,9 @@ public class BookService {
         )).collect(Collectors.toList());
     }
 
-    public void deleteBook(ActionRequest request) { // А так можно?
+    @CacheEvict(value = "bookListCache", allEntries = true)
+    public void deleteBook(ActionRequest request) {
+        // А так можно?
         try {
             this.bookRepository.deleteById(request.getId());
         } catch (Exception e) {
@@ -83,6 +90,7 @@ public class BookService {
         }
     }
 
+    @CacheEvict(value = "bookListCache", allEntries = true)
     public void editBook(EditBookRequest request) {
         Optional<BookDescriptionEntity> optional = this.bookRepository.findById(request.getId());
 
