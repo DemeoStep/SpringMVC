@@ -3,6 +3,7 @@ package com.oched.booksprj.services;
 import com.oched.booksprj.entities.AuthorEntity;
 import com.oched.booksprj.entities.BookContentEntity;
 import com.oched.booksprj.entities.BookDescriptionEntity;
+import com.oched.booksprj.exceptions.BadRequestException;
 import com.oched.booksprj.repositories.BookContentRepository;
 import com.oched.booksprj.requests.ActionRequest;
 import com.oched.booksprj.requests.EditBookRequest;
@@ -11,8 +12,10 @@ import com.oched.booksprj.repositories.AuthorRepository;
 import com.oched.booksprj.repositories.BookRepository;
 import com.oched.booksprj.responses.BookInfoResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.HttpServerErrorException;
 
 import java.util.List;
 import java.util.Optional;
@@ -72,18 +75,20 @@ public class BookService {
         )).collect(Collectors.toList());
     }
 
-    public void deleteBook(ActionRequest request) {
-        this.bookRepository.deleteById(request.getId());
+    public void deleteBook(ActionRequest request) { // А так можно?
+        try {
+            this.bookRepository.deleteById(request.getId());
+        } catch (Exception e) {
+            throw new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR, "No book with id = " + request.getId());
+        }
     }
 
     public void editBook(EditBookRequest request) {
         Optional<BookDescriptionEntity> optional = this.bookRepository.findById(request.getId());
 
-        if(optional.isEmpty()) {
-            throw new RuntimeException();
-        }
-
-        BookDescriptionEntity book = optional.get();
+        BookDescriptionEntity book = optional.orElseThrow(
+                () -> new BadRequestException("No book with id = " + request.getId(), HttpStatus.BAD_REQUEST)
+        );
 
         Optional<AuthorEntity> optionalAuthor = this.authorRepository.findByFirstNameAndLastName(
                 request.getAuthorFirstName(),
@@ -113,11 +118,9 @@ public class BookService {
     public BookInfoResponse getById(ActionRequest request) {
         Optional<BookDescriptionEntity> optional = this.bookRepository.findById(request.getId());
 
-        if(optional.isEmpty()) {
-            throw new RuntimeException();
-        }
-
-        BookDescriptionEntity book = optional.get();
+        BookDescriptionEntity book = optional.orElseThrow(
+                () -> new BadRequestException("No book with id = " + request.getId(), HttpStatus.BAD_REQUEST)
+        );
 
         return new BookInfoResponse(
                 book.getId(),
